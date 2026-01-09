@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#F8FAFC">
+    <meta name="description" content="龙高初小部数智融合创新课程 - 创造自己的运算规则">
+    <title>创造自己的运算规则 - H5版本</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* H5专用优化样式 */
+        @media (max-width: 768px) {
+            .color-controls {
+                min-width: 100% !important;
+                max-height: none !important;
+                margin-top: 1rem;
+            }
+            
+            .canvas-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cover-title {
+                font-size: 2.5rem !important;
+            }
+            
+            .page-title {
+                font-size: 1.8rem !important;
+            }
+        }
+        
+        /* 确保H5在移动端有良好的显示效果 */
+        body {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* 优化触摸体验 */
+        .nav-btn, .control-btn, .start-btn, .scenario-btn, .test-btn {
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景动画容器 -->
+    <div id="background-animation"></div>
+    
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-content">
+            <div class="nav-header">
+                <div class="nav-logo">
+                    <img src="images/图片1.png" alt="龙城高级中学教育集团" style="object-fit: contain;">
+                </div>
+                <div class="course-info">
+                    <h1 class="course-title">✨ 龙高初小部数智融合创新课程 ✨</h1>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-steps">
+                    <div class="step active" data-page="0">封面</div>
+                    <div class="step" data-page="1">感知发现</div>
+                    <div class="step" data-page="2">概念建构</div>
+                    <div class="step" data-page="3">数学表达</div>
+                    <div class="step" data-page="4">创造发现</div>
+                    <div class="step" data-page="5">总结与拓展</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 主内容容器 -->
+    <main class="main-container">
+        <!-- 页面1：课程封面 & 导引 -->
+        <section class="page active" data-page="0">
+            <div class="page-content">
+                <div class="cover-content">
+                    <div class="school-logo">
+                        <img src="images/图片1.png" alt="龙城高级中学教育集团" style="object-fit: contain;">
+                    </div>
+                    <h2 class="cover-title">创造自己的运算规则</h2>
+
+                    <div class="cover-intro">
+                        <p>欢迎来到算法的奇妙世界！在这里，你将探索数学的基本运算规律， </p>
+                        <p>并创造属于自己的运算规则。准备好开始你的数学冒险了吗？</p>
+                    </div>
+                    <button class="start-btn" onclick="goToPage(1)">开始学习</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页面2：感知发现 -->
+        <section class="page" data-page="1">
+            <div class="page-content">
+                <div class="left-section">
+                    <h2 class="page-title">🔍 感知发现</h2>
+                    <p class="page-subtitle">观察以下动画，思考其中的规律</p>
+                    
+                    <!-- 案例翻页容器 -->
+                    <div class="case-slider-container">
+                        <div class="case-slider-wrapper">
+                            <!-- 动画案例1：数字运算 -->
+                            <div class="case-slide active" data-case="0">
+                                <h3>📐 案例一：数字运算</h3>
+                                <div class="canvas-container">
+                                    <canvas id="numberCanvas" width="400" height="300"></canvas>
+                                    <div class="animation-controls">
+                                        <button class="control-btn" onclick="toggleAnimation('number')">暂停/播放</button>
+                                    </div>
+                                </div>
+                                <div class="thinking-question">
+                                    <h4>思考：</h4>
+                                    <p>这个运算有几个要素？数字和数字相加结果是什么？</p>
+                                </div>
+                            </div>
+                            
+                            <!-- 动画案例2：最优路径 -->
+                            <div class="case-slide" data-case="1">
+                                <h3>🗺️ 案例二：最优路径</h3>
+                                <div class="canvas-container">
+                                    <canvas id="shapeCanvas" width="400" height="300"></canvas>
+                                </div>
+                                <div class="thinking-question">
+                                    <h4>思考：</h4>
+                                    <p>这个运算有几个要素？线段和线段合成结果是什么？</p>
+                                </div>
+                            </div>
+                            
+                            <!-- 动画案例3：颜色混合 -->
+                            <div class="case-slide" data-case="2">
+                                <h3>🎨 案例三：颜色混合</h3>
+                                <div class="canvas-container">
+                                    <canvas id="colorCanvas" width="400" height="300"></canvas>
+                                    <div class="color-controls">
+                                        <div class="color-controls-row">
+                                            <div class="color-column">
+                                                <h4>左侧圆颜色</h4>
+                                                <div class="slider-group">
+                                                    <label>R: <span id="leftCircleR">255</span></label>
+                                                    <input type="range" min="0" max="255" value="255" class="slider" id="leftCircleRSlider">
+                                                </div>
+                                                <div class="slider-group">
+                                                    <label>G: <span id="leftCircleG">0</span></label>
+                                                    <input type="range" min="0" max="255" value="0" class="slider" id="leftCircleGSlider">
+                                                </div>
+                                                <div class="slider-group">
+                                                    <label>B: <span id="leftCircleB">0</span></label>
+                                                    <input type="range" min="0" max="255" value="0" class="slider" id="leftCircleBSlider">
+                                                </div>
+                                                <div class="slider-group">
+                                                    <label>A: <span id="leftCircleA">0.8</span></label>
+                                                    <input type="range" min="0" max="1" step="0.1" value="0.8" class="slider" id="leftCircleASlider">
+                                                </div>
+                                            </div>
+                                            <div class="color-column">
+                                                <h4>右侧圆颜色</h4>
+                                                <div class="slider-group">
+                                                    <label>R: <span id="rightCircleR">0</span></label>
+                                                    <input type="range" min="0" max="255" value="0" class="slider" id="rightCircleRSlider">
+                                                </div>
+                                                <div class="slider-group">
+                                                    <label>G: <span id="rightCircleG">0</span></label>
+                                                    <input type="range" min="0" max="255" value="0" class="slider" id="rightCircleGSlider">
+                                                </div>
+                                                <div class="slider-group">
+                                                    <label>B: <span id="rightCircleB">255</span></label>
+                                                    <input type="range" min="0" max="255" value="255" class="slider" id="rightCircleBSlider">
+                                                </div>
+                                                <div class="slider-group">
+                                                    <label>A: <span id="rightCircleA">0.8</span></label>
+                                                    <input type="range" min="0" max="1" step="0.1" value="0.8" class="slider" id="rightCircleASlider">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="thinking-question">
+                                    <h4>思考：</h4>
+                                    <p>这个运算有几个要素？颜色和颜色混合结果是什么？</p>
+                                </div>
+                            </div>
+                            
+                            <!-- 总结页面 -->
+                            <div class="case-slide" data-case="3">
+                                <h3>总结归纳</h3>
+                                <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; justify-content: center; margin-top: 2rem;">
+                                    <div style="background: rgba(10, 23, 78, 0.3); border: 1px solid rgba(0, 180, 216, 0.3); border-radius: 15px; padding: 2rem; max-width: 80%; text-align: center;">
+                                        <h4 style="color: #0099B9; margin-bottom: 1.5rem; font-size: 1.3rem;">问题一：</h4>
+                                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; line-height: 1.8;">上述三个运算中有几个要素？</p>
+                                    </div>
+                                    <div style="background: rgba(10, 23, 78, 0.3); border: 1px solid rgba(0, 180, 216, 0.3); border-radius: 15px; padding: 2rem; max-width: 80%; text-align: center;">
+                                        <h4 style="color: #00B4D8; margin-bottom: 1.5rem; font-size: 1.3rem;">问题二：</h4>
+                                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; line-height: 1.8;">上述三个运算的运算数和结果存在什么规律？</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例导航控制 -->
+                        <div class="case-navigation">
+                            <button class="case-nav-btn prev-case" onclick="goToCase(-1)">
+                                <span>←</span> 上一个案例
+                            </button>
+                            <div class="case-indicators">
+                                <div class="case-indicator active" data-case="0"></div>
+                                <div class="case-indicator" data-case="1"></div>
+                                <div class="case-indicator" data-case="2"></div>
+                                <div class="case-indicator" data-case="3"></div>
+                            </div>
+                            <button class="case-nav-btn next-case" onclick="goToCase(1)">
+                                下一个案例 →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页面3：概念建构 -->
+        <section class="page" data-page="2">
+            <div class="page-content">
+                <div class="left-section">
+                    <h2 class="page-title">🧠 概念建构</h2>
+                    <p class="page-subtitle">理解二元运算的基本概念</p>
+                    
+                    <div class="definition-section">
+                        <h3>二元运算的定义</h3>
+                        <div class="definition-card">
+                            <p>设 ( S ) 是一个非空集合，若对于任意的 ( a, b in S )，</p>
+                            <p>通过某种规则 ( ⊕ )，都有唯一确定的 ( c in S ) 与之对应，</p>
+                            <p>则称 ( ⊕ ) 是 ( S ) 上的一个二元运算，记作 ( a ⊕ b = c )。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="three-elements">
+                        <h3>二元运算的三要素</h3>
+                        <div class="elements-drag-drop">
+                            <div class="drop-zones">
+                                <div class="drop-zone" data-zone="1">
+                                    <span class="zone-label">要素1：</span>
+                                    <div class="drop-hint">a和b都属于一个_____________</div>
+                                    <div class="drop-area" id="drop1"></div>
+                                </div>
+                                <div class="drop-zone" data-zone="2">
+                                    <span class="zone-label">要素2：</span>
+                                    <div class="drop-hint">a (⊕) b = c，严格满足_________________</div>
+                                    <div class="drop-area" id="drop2"></div>
+                                </div>
+                                <div class="drop-zone" data-zone="3">
+                                    <span class="zone-label">要素3：</span>
+                                    <div class="drop-hint">c属于集合（S），满足__________________.</div>
+                                    <div class="drop-area" id="drop3"></div>
+                                </div>
+                            </div>
+                            <div class="drag-items">
+                                <div class="drag-item" draggable="true" data-item="set">集合 ( S )</div>
+                                <div class="drag-item" draggable="true" data-item="rule">运算规则 ( ⊕ )</div>
+                                <div class="drag-item" draggable="true" data-item="closure">封闭性</div>
+                                <div class="drag-item" draggable="true" data-item="set2">集合 ( S )</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 课后思考问题 -->
+                    <div class="thinking-questions">
+                        <h3>思考</h3>
+                        
+                        <!-- 问题一 -->
+                        <div class="question-answer">
+                            <h4>问题一：能否将二元运算进行图形化表达？</h4>
+                            <div class="answer-content" id="answer1" style="padding: 1rem;">
+                                <div class="canvas-drawing-container">
+                                    <canvas id="drawingCanvas" width="800" height="400" style="border: 1px solid rgba(0, 180, 216, 0.5); background: white; cursor: crosshair;"></canvas>
+                                    <div class="canvas-controls">
+                                        <button id="clearCanvas" class="answer-toggle">清图</button>
+                                        <div class="drawing-tools">
+                                            <label>画笔颜色：</label>
+                                            <input type="color" id="penColor" value="#000000">
+                                            <label>画笔粗细：</label>
+                                            <input type="range" id="penSize" min="1" max="20" value="2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 问题二 -->
+                        <div class="question-answer">
+                            <h4>问题二：请举出不满足二元运算的例子？</h4>
+                            <button class="answer-toggle" onclick="toggleAnswer(2)">点击查看答案</button>
+                            <div class="answer-content" id="answer2">
+                                <p>以下是一些不满足二元运算定义的例子：</p>
+                                <ul>
+                                    <li><strong>自然数集上的减法</strong>：对于自然数  a, b n athbb{N} ，当  a < b  时， a - b 
+otin athbb{N} ，不满足封闭性。</li>
+                                    <li><strong>整数集上的除法</strong>：对于整数  a, b n athbb{Z} （ b eq 0 ），当  b  不是  a  的因数时， a iv b 
+otin athbb{Z} ，不满足封闭性。</li>
+                                    <li><strong>实数集上的开方运算</strong>：开方运算只接受一个输入，不是二元运算。</li>
+                                    <li><strong>无序对集合上的排序运算</strong>：对于集合  a, b ，排序运算返回有序对  (a, b)  或  (b, a) ，结果不属于原集合，不满足封闭性。</li>
+                                    <li><strong>集合  0, 1, 2  上的模2加法</strong>：当运算结果超过2时，如  2 + 1 = 3 od 2 = 1 ，虽然结果在集合中，但如果定义为普通加法，则  2 + 2 = 4 
+otin 0, 1, 2 ，不满足封闭性。</li>
+                                </ul>
+                                <p>这些例子主要违反了二元运算的封闭性要求，即运算结果必须属于原集合。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页面4：数学表达（颜色叠加计算） -->
+        <section class="page" data-page="3">
+            <div class="page-content">
+                <div class="left-section">
+                    <h2 class="page-title">📊 数学表达</h2>
+                    <p class="page-subtitle">颜色叠加的数学计算</p>
+                    
+                    <div class="rgba-explanation">
+                        <div class="color-model-card">
+                            <p>我们平时用的手机和电脑屏幕，都是用 RGB三色光来“画”出所有颜色的。每个颜色有红、绿、蓝三个光点，亮度范围是 0（最暗）到 255（最亮）。比如 rgb(255, 0, 0) 表示最亮的纯红色。</p>
+                            <p>如果想让颜色有透明效果，就加一个 A（透明度），变成 RGBA。A 的取值从 0.0（全透明，像玻璃）到 1.0（不透明，像实心墙），例如 rgba(255, 0, 0, 0.5) 是半透明的红色。</p>
+                            <p>计算机中颜色的叠加计算就像把一杯有颜色的果汁倒在另一杯果汁上：</p>
+                            <p style="text-align: center; font-weight: bold; margin: 1rem 0;">最终颜色（R,G,B,A）=上层颜色（R,G,B,A）×A＋下层颜色（R,G,B,A）×(1–A)</p>
+                            <p style="font-style: italic; margin-bottom: 1rem;">(注：若R、G、B中数字的计算结果为小数，需四舍五入为整数)</p>
+                            <p>这样，新的颜色就会根据上层透明度按比例和下层的颜色混合起来，实现半透明叠加的效果。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 任务列表 -->
+                    <div class="task-section">
+                        <div class="task-item">
+                            <h3 class="task-title">任务一：</h3>
+                            <p class="task-content">颜色的叠加计算中，被运算的内容是什么？</p>
+                        </div>
+                        <div class="task-item">
+                            <h3 class="task-title">任务二：</h3>
+                            <p class="task-content">请在原文中圈出计算规则。</p>
+                        </div>
+                        <div class="task-item">
+                            <h3 class="task-title">任务三：</h3>
+                            <p class="task-content">该运算的计算结果是什么？请判断该运算是否为一个二元运算。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页面5：创造发现 -->
+        <section class="page" data-page="4">
+            <div class="page-content">
+                <div class="left-section">
+                    <h2 class="page-title">💡 创造发现</h2>
+                    <p class="page-subtitle">设计你自己的二元运算</p>
+                    
+                    <div class="creation-generator">
+                        <div class="generator-header">
+                            <h3>二元运算生成器</h3>
+                            <p class="generator-subtitle">一键生成数学二元运算示例，让数学学习更直观易懂！</p>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <img src="images/图片1.png" alt="用户头像">
+                                </div>
+                                <span class="user-name">龙高初小部聪明的初中学生们</span>
+                            </div>
+                        </div>
+                        
+                        <form class="generator-form">
+                            <!-- 情景输入 -->
+                            <div class="form-group">
+                                <label for="scenario" class="required-label">情景 *</label>
+                                <div class="input-with-hint">
+                                    <input type="text" id="scenario" placeholder="数学/艺术/生活/科学......" maxlength="1024">
+                                    <span class="char-count">0 / 1024</span>
+                                </div>
+                                <div class="scenario-images">
+                                    <div class="scenario-image large">
+                                        <img src="images/1.png" alt="数学" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    </div>
+                                    <div class="scenario-image large">
+                                        <img src="images/2.png" alt="艺术" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    </div>
+                                    <div class="scenario-image large">
+                                        <img src="images/3.png" alt="生活" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    </div>
+                                    <div class="scenario-image large">
+                                        <img src="images/4.png" alt="科学" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                                    </div>
+                                    <div class="scenario-image large more">
+                                        <div class="image-placeholder">...</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 运算数所处集合输入 -->
+                            <div class="form-group">
+                                <label for="operationSet" class="required-label">运算数所处集合 *</label>
+                                <div class="input-with-hint">
+                                    <input type="text" id="operationSet" placeholder="数字/图形/坐标/线段/函数/数学的抽象表达……" maxlength="50">
+                                    <span class="char-count">0 / 50</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 运算规则输入 -->
+                            <div class="form-group">
+                                <label for="operationRule" class="required-label">运算规则 *</label>
+                                <div class="input-with-hint">
+                                    <input type="text" id="operationRule" placeholder="文字/公式/图形化等等" maxlength="50">
+                                    <span class="char-count">0 / 50</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 是否生成代码输入 -->
+                            <div class="form-group">
+                                <label for="generateCode" class="required-label">是否生成html代码 *</label>
+                                <select id="generateCode">
+                                    <option value="">请选择</option>
+                                    <option value="yes">是</option>
+                                    <option value="no">否</option>
+                                </select>
+                            </div>
+                            
+                            <!-- 操作按钮 -->
+                            <div class="form-actions">
+                                <button type="reset" class="reset-btn">重置</button>
+                                <button type="submit" class="submit-btn">发送</button>
+                            </div>
+                        </form>
+                        
+                        <!-- 二维码区域 -->
+                        <div class="qrcode-section">
+                            <div class="qrcode-container">
+                                <div class="qrcode-placeholder">二元运算生成器</div>
+                                <div class="qrcode-desc">一键生成数学二元运算示例，让数学学习更直观易懂！</div>
+                                <div class="qrcode-image">
+                                    <!-- 新的二维码图片将在此处添加 -->
+                                    <img src="images/erweima.png" alt="二元运算生成器二维码" style="max-width: 180px; max-height: 180px; border: 2px solid rgba(0, 180, 216, 0.5); border-radius: 10px;">
+                                </div>
+                                <div class="qrcode-text">扫描二维码，体验智能体</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页面6：总结与拓展 -->
+        <section class="page" data-page="5">
+            <div class="page-content">
+                <div class="left-section">
+                    <h2 class="page-title">📚 总结与拓展</h2>
+                    <p class="page-subtitle">回顾学习内容，探索更广阔的数学世界</p>
+                    
+                    <!-- 第一大板块：总结反思 -->
+                    <div class="summary-reflection-section" style="margin-top: 2rem;">
+                        <h3>总结反思</h3>
+                        <div class="reflection-card" style="background: rgba(10, 23, 78, 0.3); border: 1px solid rgba(0, 180, 216, 0.3); border-radius: 15px; padding: 2rem; margin-top: 1rem;">
+                            <h4 style="color: #00B4D8; margin-bottom: 1.5rem; font-size: 1.3rem;">从这节课中你学到了什么？</h4>
+                            <div class="reflection-content" style="margin-top: 1rem; color: rgba(255, 255, 255, 0.8); font-size: 1.1rem; line-height: 1.8;">
+                                <p>请思考这个问题，并与同学和老师分享你的想法</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第二大板块：课后拓展 -->
+                    <div class="after-class-expansion" style="margin-top: 3rem;">
+                        <h3>课后拓展</h3>
+                        <div class="expansion-card" style="background: rgba(10, 23, 78, 0.3); border: 1px solid rgba(0, 180, 216, 0.3); border-radius: 15px; padding: 2rem; margin-top: 1rem;">
+                            <h4 style="color: #00B4D8; margin-bottom: 2rem; font-size: 1.3rem;">思考问题</h4>
+                            <div class="expansion-questions" style="display: flex; flex-direction: column; gap: 2rem;">
+                                <div class="question-item" style="display: flex; gap: 1rem;">
+                                    <div class="question-number" style="width: 30px; height: 30px; background: #0099B9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; flex-shrink: 0;">1</div>
+                                    <div class="question-content">
+                                        <h5 style="margin: 0 0 0.5rem 0; color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;">如何定义三元及多元运算？</h5>
+                                        <p style="margin: 0; color: rgba(255, 255, 255, 0.7); font-size: 1rem;">请结合二元运算的定义，尝试推广到三元及多元运算。</p>
+                                    </div>
+                                </div>
+                                <div class="question-item" style="display: flex; gap: 1rem;">
+                                    <div class="question-number" style="width: 30px; height: 30px; background: #00B4D8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; flex-shrink: 0;">2</div>
+                                    <div class="question-content">
+                                        <h5 style="margin: 0 0 0.5rem 0; color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;">二元运算和f（x，y）函数有什么联系？</h5>
+                                        <p style="margin: 0; color: rgba(255, 255, 255, 0.7); font-size: 1rem;">从映射的角度分析二元运算与二元函数的关系。</p>
+                                    </div>
+                                </div>
+                                <div class="question-item" style="display: flex; gap: 1rem;">
+                                    <div class="question-number" style="width: 30px; height: 30px; background: #00B4D8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; flex-shrink: 0;">3</div>
+                                    <div class="question-content">
+                                        <h5 style="margin: 0 0 0.5rem 0; color: rgba(255, 255, 255, 0.9); font-size: 1.1rem;">如何灵活地使用AI?</h5>
+                                        <p style="margin: 0; color: rgba(255, 255, 255, 0.7); font-size: 1rem;">结合本节课的内容，思考如何利用AI工具辅助数学学习和创新。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 底部导航按钮 -->
+    <div class="bottom-nav">
+        <button class="nav-btn prev-btn" onclick="goToPreviousPage()">上一页</button>
+        <div class="page-indicator">
+            <span id="currentPage">1</span> / <span id="totalPages">6</span>
+        </div>
+        <button class="nav-btn next-btn" onclick="goToNextPage()">下一页</button>
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>
